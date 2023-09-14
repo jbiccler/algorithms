@@ -1,5 +1,7 @@
+pub mod search;
 pub mod sort;
 
+use algos::search::linear_search;
 use algos::sort::bubble_sort;
 
 fn main() {
@@ -7,4 +9,5 @@ fn main() {
     dbg!("{}", &v);
     bubble_sort(&mut v);
     dbg!("{}", &v);
+    dbg!("{}", linear_search(v, &5).unwrap());
 }
