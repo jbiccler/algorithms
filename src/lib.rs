@@ -1,10 +1,12 @@
 #![feature(test)]
 extern crate test;
+pub mod nodes;
 pub mod search;
 pub mod sort;
 
 #[cfg(test)]
 mod tests {
+    use crate::nodes::DoublyLinkedList;
     use crate::search::binary_search;
     use crate::search::linear_search;
     use crate::search::two_cystal_balls;
@@ -141,5 +143,18 @@ mod tests {
     fn two_cystal_balls_single_true() {
         let v = vec![true; 1];
         assert_eq!(two_cystal_balls(&v).unwrap(), 0);
+    }
+    #[test]
+    fn test_push_pop_front() {
+        let mut list = DoublyLinkedList::new();
+        let n: usize = 11;
+        for i in 1..n {
+            list.push_front(i);
+        }
+        for i in (1..n).rev() {
+            dbg!(&i);
+            assert_eq!(list.pop_front(), Some(i));
+        }
+        assert_eq!(list.pop_front(), None);
     }
 }
