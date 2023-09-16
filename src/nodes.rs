@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::rc::{Rc, Weak};
+use std::rc::Rc;
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
 
@@ -18,18 +18,6 @@ impl<T: Clone> Node<T> {
             prev: None,
         }))
     }
-    /*
-    fn get(&self, n: usize) -> Option<Rc<RefCell<Self>>> {
-        let mut next = self.next;
-        for i in 1..n {
-            match next {
-                Some(n) => next = n.borrow_mut().next,
-                None => return None,
-            }
-        }
-        return next;
-    }
-    */
 }
 
 pub struct DoublyLinkedList<T: Clone> {
@@ -48,13 +36,13 @@ impl<T: Clone> DoublyLinkedList<T> {
         let new_node = Node::new(val);
         match self.head.take() {
             None => {
-                self.tail = Some(new_node.clone());
-                self.head = Some(new_node.clone());
+                self.tail = Some(Rc::clone(&new_node));
+                self.head = Some(Rc::clone(&new_node));
             }
             Some(prev_head) => {
-                self.head = Some(new_node.clone());
-                new_node.as_ref().borrow_mut().next = Some(prev_head.clone());
-                prev_head.as_ref().borrow_mut().prev = Some(new_node.clone());
+                self.head = Some(Rc::clone(&new_node));
+                RefCell::borrow_mut(&new_node).next = Some(Rc::clone(&prev_head));
+                RefCell::borrow_mut(&prev_head).prev = Some(Rc::clone(&new_node));
             }
         }
     }
@@ -65,15 +53,11 @@ impl<T: Clone> DoublyLinkedList<T> {
                 None
             }
             Some(prev_head) => {
-                let tmp = prev_head.as_ref().borrow_mut().val.clone();
-                self.head = match prev_head.as_ref().borrow_mut().next.as_ref() {
-                    Some(n) => Some(n.clone()),
-                    None => None,
-                };
+                self.head = RefCell::borrow(&prev_head).next.as_ref().map(Rc::clone);
                 if let Some(head) = self.head.as_ref() {
-                    head.as_ref().borrow_mut().prev = None;
+                    RefCell::borrow_mut(head).prev = None;
                 }
-                Some(tmp)
+                Some(RefCell::borrow(&prev_head).val.clone())
             }
         }
     }
