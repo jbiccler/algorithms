@@ -60,4 +60,7 @@ impl<T: Clone> Queue<T> {
             }
         }
     }
+    pub fn peek(&self) -> Option<T> {
+        self.head.as_ref().map(|h| RefCell::borrow(h).val.clone())
+    }
 }

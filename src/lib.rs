@@ -174,4 +174,19 @@ mod tests {
         }
         dbg!(&q);
     }
+    #[test]
+    fn queue_peek() {
+        let mut q: Queue<i32> = Queue::new();
+        // check empty queue
+        assert_eq!(q.peek(), None);
+        let n = 10;
+        for i in 0..n {
+            q.queue(i);
+        }
+        for i in 0..n {
+            assert_eq!(q.peek(), Some(i));
+            q.dequeue();
+        }
+        assert_eq!(q.peek(), None);
+    }
 }
