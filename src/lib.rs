@@ -1,17 +1,17 @@
 #![feature(test)]
 extern crate test;
 pub mod nodes;
-pub mod queue;
 pub mod search;
+pub mod singly_linked_list;
 pub mod sort;
 
 #[cfg(test)]
 mod tests {
     use crate::nodes::DoublyLinkedList;
-    use crate::queue::Queue;
     use crate::search::binary_search;
     use crate::search::linear_search;
     use crate::search::two_cystal_balls;
+    use crate::singly_linked_list::SinglyLinkedList;
     use crate::sort::bubble_sort;
     use crate::sort::bubble_sort_recursive;
     use test::Bencher;
@@ -161,14 +161,14 @@ mod tests {
     }
     #[test]
     fn queue_dequeue() {
-        let mut q: Queue<i32> = Queue::new();
+        let mut q: SinglyLinkedList<i32> = SinglyLinkedList::new();
         let n = 10;
         for i in 0..n {
-            q.queue(i);
+            q.push_back(i);
         }
         dbg!(&q);
         for i in 0..n {
-            let popped = q.dequeue();
+            let popped = q.pop_front();
             dbg!(&popped);
             assert_eq!(popped, Some(i));
         }
@@ -176,17 +176,30 @@ mod tests {
     }
     #[test]
     fn queue_peek() {
-        let mut q: Queue<i32> = Queue::new();
+        let mut q: SinglyLinkedList<i32> = SinglyLinkedList::new();
         // check empty queue
         assert_eq!(q.peek(), None);
         let n = 10;
         for i in 0..n {
-            q.queue(i);
+            q.push_back(i);
         }
         for i in 0..n {
             assert_eq!(q.peek(), Some(i));
-            q.dequeue();
+            q.pop_front();
         }
         assert_eq!(q.peek(), None);
+    }
+    #[test]
+    fn stack() {
+        let mut q: SinglyLinkedList<i32> = SinglyLinkedList::new();
+        let n = 10;
+        for i in 0..n {
+            q.push_front(i);
+        }
+        for i in (0..n).rev() {
+            let popped = q.pop_front();
+            dbg!(&popped);
+            assert_eq!(popped, Some(i));
+        }
     }
 }
