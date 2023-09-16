@@ -43,7 +43,7 @@ impl<T: Clone> SinglyLinkedList<T> {
         match self.tail.take() {
             None => {
                 // No nodes yet in the list
-                // Initialize list that doens't have a next node and set it as head and tail
+                // Initialize list that doesn't have a next node and set it as head and tail
                 let node = Rc::new(RefCell::new(Node { val, next: None }));
                 self.tail = Some(Rc::clone(&node));
                 self.head = Some(Rc::clone(&node));
@@ -64,7 +64,7 @@ impl<T: Clone> SinglyLinkedList<T> {
         match self.head.take() {
             None => {
                 // No nodes yet in the list
-                // Initialize list that doens't have a next node and set it as head and tail
+                // Initialize list that doesnt't have a next node and set it as head and tail
                 let node = Rc::new(RefCell::new(Node { val, next: None }));
                 self.tail = Some(Rc::clone(&node));
                 self.head = Some(Rc::clone(&node));
