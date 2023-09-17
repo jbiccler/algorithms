@@ -1,3 +1,13 @@
+pub fn insertion_sort<T: PartialOrd>(v: &mut [T]) {
+    let n = v.len();
+    for i in 1..n {
+        let mut j = i;
+        while v[j] < v[j.saturating_sub(1)] && j > 0 {
+            v.swap(j, j - 1);
+            j -= 1;
+        }
+    }
+}
 pub fn bubble_sort<T: PartialOrd>(v: &mut Vec<T>) {
     // simple in place bubble sort
     if v.is_empty() {
@@ -12,7 +22,7 @@ pub fn bubble_sort<T: PartialOrd>(v: &mut Vec<T>) {
             }
         }
         if !swapped {
-            return;
+            return ();
         };
     }
 }

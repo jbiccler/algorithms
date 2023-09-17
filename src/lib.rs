@@ -7,6 +7,8 @@ pub mod sort;
 
 #[cfg(test)]
 mod tests {
+    use std::vec;
+
     use crate::nodes::DoublyLinkedList;
     use crate::search::binary_search;
     use crate::search::linear_search;
@@ -14,6 +16,7 @@ mod tests {
     use crate::singly_linked_list::SinglyLinkedList;
     use crate::sort::bubble_sort;
     use crate::sort::bubble_sort_recursive;
+    use crate::sort::insertion_sort;
     use test::Bencher;
 
     #[bench]
@@ -201,5 +204,12 @@ mod tests {
             dbg!(&popped);
             assert_eq!(popped, Some(i));
         }
+    }
+    #[test]
+    fn test_insertion_sort() {
+        let mut v = vec![35, 5, 3, 2, 1, 5, 3, 2];
+        insertion_sort(&mut v);
+        assert_eq!(v, vec![1, 2, 2, 3, 3, 5, 5, 35]);
+        assert_eq!(Vec::<i32>::new(), Vec::<i32>::new());
     }
 }
