@@ -1,5 +1,6 @@
 #![feature(test)]
 extern crate test;
+pub mod arrays;
 pub mod nodes;
 pub mod search;
 pub mod singly_linked_list;
@@ -7,16 +8,13 @@ pub mod sort;
 
 #[cfg(test)]
 mod tests {
-    use std::vec;
-
+    use crate::arrays::RingBuffer;
     use crate::nodes::DoublyLinkedList;
-    use crate::search::binary_search;
-    use crate::search::linear_search;
-    use crate::search::two_cystal_balls;
+    use crate::search::*;
     use crate::singly_linked_list::SinglyLinkedList;
-    use crate::sort::bubble_sort;
-    use crate::sort::bubble_sort_recursive;
-    use crate::sort::insertion_sort;
+    use crate::sort::merge_sort;
+    use crate::sort::*;
+    use std::vec;
     use test::Bencher;
 
     #[bench]
@@ -211,5 +209,26 @@ mod tests {
         insertion_sort(&mut v);
         assert_eq!(v, vec![1, 2, 2, 3, 3, 5, 5, 35]);
         assert_eq!(Vec::<i32>::new(), Vec::<i32>::new());
+    }
+    #[test]
+    fn test_ring_buffer() {
+        let mut rb = RingBuffer::new(100);
+        for i in 0..10 {
+            for j in 0..57 {
+                rb.push(57 * i + j).unwrap();
+            }
+            dbg!(&rb);
+            for j in 0..57 {
+                assert_eq!(rb.pop(), Some(57 * i + j));
+            }
+        }
+        dbg!(&rb);
+    }
+
+    #[test]
+    fn test_merge_sort() {
+        let mut v = vec![35, 5, 3, 2, 1, 5, 3, 2];
+        merge_sort(&mut v);
+        assert_eq!(v, vec![1, 2, 2, 3, 3, 5, 5, 35]);
     }
 }

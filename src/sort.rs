@@ -8,6 +8,43 @@ pub fn insertion_sort<T: PartialOrd>(v: &mut [T]) {
         }
     }
 }
+
+pub fn merge_sort<T: PartialOrd + Clone + Copy>(v: &mut [T]) {
+    let n = v.len();
+    if n <= 1 {
+        return;
+    } else {
+        let mid = n / 2;
+        let (left, right) = v.split_at_mut(mid);
+
+        merge_sort(left);
+        merge_sort(right);
+
+        let mut merged = Vec::with_capacity(n);
+        let mut l: usize = 0;
+        let mut r: usize = 0;
+
+        while l < left.len() && r < right.len() {
+            if left[l] <= right[r] {
+                merged.push(left[l]);
+                l += 1;
+            } else {
+                merged.push(right[r]);
+                r += 1;
+            }
+        }
+        while l < left.len() {
+            merged.push(left[l]);
+            l += 1;
+        }
+        while r < right.len() {
+            merged.push(right[r]);
+            r += 1;
+        }
+        v.copy_from_slice(&merged);
+    }
+}
+
 pub fn bubble_sort<T: PartialOrd>(v: &mut Vec<T>) {
     // simple in place bubble sort
     if v.is_empty() {
