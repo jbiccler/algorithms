@@ -9,6 +9,34 @@ pub fn insertion_sort<T: PartialOrd>(v: &mut [T]) {
     }
 }
 
+fn partition<T: PartialOrd + Clone>(v: &mut [T], lo: usize, hi: usize) -> usize {
+    let p = v[hi - 1].clone();
+    let mut i = lo;
+
+    for j in lo..(hi - 1) {
+        if v[j] < p {
+            v.swap(j, i);
+            i += 1;
+        }
+    }
+    v.swap(i, hi - 1);
+    return i;
+}
+
+fn qs<T: PartialOrd + Clone>(v: &mut [T], lo: usize, hi: usize) {
+    // consider high to be exclusive
+    if lo < hi {
+        let p = partition(v, lo, hi);
+        qs(v, lo, p);
+        qs(v, p + 1, hi);
+    }
+}
+
+pub fn quick_sort<T: PartialOrd + Clone>(v: &mut [T]) {
+    // wrapper function for quick sort
+    qs(v, 0, v.len());
+}
+
 pub fn merge_sort<T: PartialOrd + Clone + Copy>(v: &mut [T]) {
     let n = v.len();
     if n <= 1 {

@@ -85,3 +85,4 @@ impl<T: Clone> SinglyLinkedList<T> {
         self.head.as_ref().map(|h| RefCell::borrow(h).val.clone())
     }
 }
+
